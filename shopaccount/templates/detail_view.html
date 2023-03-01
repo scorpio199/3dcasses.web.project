@@ -1,0 +1,94 @@
+{% extends 'header.html' %}
+
+{% block title %} Detail {% endblock %}
+
+{% block content %}
+    <input type="hidden" id="data_id" value="{{ data_id }}">
+    <input type="hidden" id="data_no" value="{{ data_no }}">
+    {% if data_no == '1' %} 
+    <table id="table-detail-mp" class="table">
+        <tr>
+            <td>ID</td>
+            <td class="mp_id"></td>
+        </tr>
+        <tr>
+            <td>Marketplace name</td>
+            <td class="mp_name"></td>  
+        </tr>
+        <tr>
+            <td>Total Quantitiy of Order</td>
+            <td class="total_qty_order"></td>
+        </tr>
+        <tr>
+            <td>Total Selling Price</td>
+            <td class="total_selling_price"></td>
+        </tr>
+        <tr>
+            <td>Total Basic Price</td>
+            <td class="total_basic_price"></td>
+        </tr>
+        <tr>
+            <td>Total Profit</td>
+            <td class="total_profit"></td>
+        </tr>
+    </table>
+    <hr>
+    <div class="text-center">
+        <form method="GET">
+            <label>Search from</label>
+            <input type="date" name="" id="date_from">
+            <label>to</label>
+            <input type="date" name="" id="date_to">
+            <input type="submit" name="" id="btn_search_by_date">
+            <input type="reset" name="">
+        </form>
+    </div>
+    <hr>
+    <table id="table-detail-tr" class="table">
+        <!-- set in jquery -->
+    </table>
+    {% else %}
+    <table class="table">
+        <tr>
+            <td>ID</td>
+            <td class="tr_id"></td>
+        </tr>
+        <tr>
+            <td>Marketplace</td>
+            <td class="tr_mp_id"></td>
+        </tr>
+        <tr>
+            <td>Order ID</td>
+            <td class="order_id"></td>
+        </tr>
+        <tr>
+            <td>Product name</td>
+            <td class="product_name"></td>
+        </tr>
+        <tr>
+            <td>Product Category</td>
+            <td class="product_category"></td>
+        </tr>
+        <tr>
+            <td>Order Qty</td>
+            <td class="quantity"></td>
+        </tr>
+        <tr>
+            <td>Nett Selling Price</td>
+            <td class="selling_price"></td>
+        </tr>
+        <tr>
+            <td>Basic Price</td>
+            <td class="basic_price"></td>
+        </tr>
+        <tr>
+            <td>Profit</td>
+            <td class="profit"></td>
+        </tr>
+        <tr>
+            <td>Notes</td>
+            <td class="notes"></td>
+        </tr>
+    </table>
+    {% endif %}
+{% endblock %}

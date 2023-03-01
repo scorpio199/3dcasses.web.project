@@ -1,0 +1,53 @@
+{% extends 'header.html' %}
+
+{% block title %} Dashboard {% endblock %}
+
+{% block content %}
+    <input type="hidden" id="data_id" value="1">
+    <input type="hidden" id="data_no" value="1">
+    {% if delete_mp_item %}
+        <div id="some_flag" title="Some Flag">
+            <form method="POST">
+                <!-- Security token by Django -->
+                {% csrf_token %}
+                Are you want to delete item {{ item_id }}?
+                <input type="submit" value="Yes" />
+                <a href="../list_view">Cancel </a>
+            </form>
+        </div>
+    {% else %}
+        <div>
+            <div class="title">
+                <b>Marketplace</b>
+                <a href="{{ url }}/create_view/1">[Add Data]</a>
+            </div>
+        </div>
+        <div class="col-md-3">            
+            <table id="table-marketplace" class="table datatable">
+                <!-- set in jquery -->
+            </table>
+        </div>
+        <hr>
+        <div>
+            <div class="title">
+                <b>Transaction</b>
+                <a href="{{ url }}/create_view/2">[Add Data]</a>
+            </div>
+            <hr>
+            <div class="text-center">
+                <form method="GET">                
+                    <label>Search from</label>
+                    <input type="date" name="" id="tr_date_from">
+                    <label>to</label>
+                    <input type="date" name="" id="tr_date_to">
+                    <input type="submit" name="" id="btn_search_tr_by_date">
+                    <input type="reset" name="">
+                </form>
+            </div>
+            <hr>
+        </div>
+        <table id="table-transaction" class="table datatable">
+        <!-- set in jquery -->
+    </table>
+    {% endif %}
+{% endblock %}

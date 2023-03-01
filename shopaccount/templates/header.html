@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
+		<style>
+			.text-left{
+			    text-align: left;
+			}
+			.text-right{
+			    text-align: right;
+			}        
+			.text-center{
+			    text-align: center;
+			}
+			.pull-left{
+			    float: left;
+			}
+			.col-md-3{
+				width: 33.3333%;
+			}
+			.col-md-6{
+				width: 66.6666%;
+			}
+
+			.title{
+				padding: 12px 10px;
+				margin: 10px 0;
+				background: linear-gradient(97deg, rgba(2,0,36,1) 0%, rgba(0,0,0,0.9416141456582633) 44%, rgba(0,212,255,1) 100%);
+			}
+
+			.title b{
+				color: #FFFF;
+			}
+
+			.title a{
+				color: #00d4ff;
+			}
+
+			.table{
+				margin: 10px auto;
+			}
+		</style>
+		<title>{% block title %} Main {% endblock %}</title>
+	</head>
+	<body>
+		<div id="content">
+		    {% block content %}{% endblock %}
+		</div>
+	</body>
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.13.2/api/sum().js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+    	function ReplaceNumberWithCommas(yourNumber) {
+		    //Seperates the components of the number
+		    var n= yourNumber.toString().split(".");
+		    //Comma-fies the first part
+		    n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		    //Combines the two sections
+		    return n.join(".");
+		}
+
+        function get_list_marketplace(){
+            $('#table-marketplace').DataTable({
+                columnDefs: [{
+                    targets: -1,
+                    data: null
+                }],
+                ajax: {
+                  url: 'http://localhost:8000/shopaccount/list_marketplace/',
+                  dataSrc: function(json) {
+                    var data = [];
+
+                    // Iterate over each object in the JSON response and create a new array of arrays
+                    $.each(json.dataset, function(index, e) {
+                        index++
+                        data.push([index, e.id, e.mp_name]);
+                    });
+
+                    return data;
+                  }
+                },
+                columns: [
+                    { title: 'No' },
+                    { title: 'ID', visible: false },
+                    { title: 'Marketplace',                           
+                        render: function(data, type, row, meta) {
+                            return '<a href="../detail_view/'+row[1]+'/1">'+data+'</a>';
+                        } 
+                    },
+                    { title: 'Action',
+                        render: function(data, type, row, meta) {
+                            return '<a href="../update_view/'+row[1]+'/1">edit</a>';
+                        } 
+                    }
+                ],
+                paging: false,
+                info: false
+            });
+        }
+
+        function get_list_transaction(date_from, date_to){
+        	$('#table-transaction').DataTable({
+                columnDefs: [{
+                    targets: -1,
+                    data: null
+                }],
+                ajax: {
+                  url: 'http://localhost:8000/shopaccount/list_transaction/'+date_from+'/'+date_to,
+                  dataSrc: function(json) {
+                    var data = [];
+
+                    // Iterate over each object in the JSON response and create a new array of arrays
+                    $.each(json.dataset, function(index, e) {
+                        index++
+                        data.push([index, e.id, e.date, e.mp_id.mp_name, 
+                                e.order_id, e.product_name, e.product_category, e.quantity,
+                                ReplaceNumberWithCommas(e.selling_price), ReplaceNumberWithCommas(e.basic_price)]);
+                    });
+
+                    return data;
+                  }
+                },
+                columns: [
+                    { title: 'No' },
+                    { title: 'ID', visible: false },
+                    { title: 'Date' },
+                    { title: 'Marketplace' },                          
+                    { title: 'Order ID',
+                        render: function(data, type, row, meta) {
+                            return '<a href="../detail_view/'+row[1]+'/2">'+data+'</a>';
+                        } 
+                    },
+                    { title: 'Product name' },
+                    { title: 'Category' },
+                    { title: 'Quantity' },
+                    { title: 'Selling price' },
+                    { title: 'Basic price' },
+                    { title: 'Action',
+                        render: function(data, type, row, meta) {
+                            return '<a href="../update_view/'+row[1]+'/2">edit</a>';
+                        } 
+                    }
+                ],
+                pagingType: 'full_numbers',
+                pageLength: 25,
+                order: [[0, 'desc']]
+            });
+        }
+
+
+        function get_list_detail_transaction(date_from, date_to){
+        	let data_id = $('#data_id').val()
+        	let data_no = $('#data_no').val()
+        	
+        	if (data_no == 1){     		
+	        	$('#table-detail-tr').DataTable({
+	                columnDefs: [{
+	                    data: null
+	                }],
+	                ajax: {
+	                  url: 'http://localhost:8000/shopaccount/list_detail/'+data_id+'/'+data_no+'/'+date_from+'/'+date_to,
+	                  dataSrc: function(json) {
+	                    let data = [];
+	                    let e = json.marketplace
+
+	                    $('.mp_id').text(e.id)
+	                    $('.mp_name').text(e.mp_name)
+	                    $('.total_qty_order').html('<b>'+json.total_qty+'</b>')
+	                    $('.total_selling_price').html('<b>'+ReplaceNumberWithCommas(json.total_selling_price)+'</b>')
+	                    $('.total_basic_price').html('<b>'+ReplaceNumberWithCommas(json.total_basic_price)+'</b>')
+	                    $('.total_profit').html('<b>'+ReplaceNumberWithCommas(json.total_profit)+'</b>')
+
+	                    // Iterate over each object in the JSON response and create a new array of arrays
+	                    $.each(json.transaction, function(index, e) {
+	                        index++
+	                        data.push([index, e.date,  
+	                                e.order_id, e.product_name, e.product_category, e.quantity,
+	                                ReplaceNumberWithCommas(e.selling_price), ReplaceNumberWithCommas(e.basic_price), ReplaceNumberWithCommas(e.profit)]);
+	                    });
+
+	                    return data;
+	                  }
+	                },
+	                columns: [
+	                    { title: 'No' },
+	                    { title: 'Date' },                          
+	                    { title: 'Order ID' },
+	                    { title: 'Product name' },
+	                    { title: 'Category' },
+	                    { title: 'Quantity' },
+	                    { title: 'Nett Selling price' },
+	                    { title: 'Basic price' },
+	                    { title: 'Profit' }
+	                ],
+	                pagingType: 'full_numbers',
+	                pageLength: 25,
+	            });
+        	}
+        	else{
+        		$.get('http://localhost:8000/shopaccount/list_detail/'+data_id+'/'+data_no+'/'+date_from+'/'+date_to, function(data, status){
+					let e = data.transaction
+					$('.tr_id').text(e.id)
+					$('.tr_mp_id').text(e.mp_id.mp_name)
+					$('.order_id').text(e.order_id)
+					$('.product_name').text(e.product_name)
+					$('.product_category').text(e.product_category)
+					$('.quantity').text(e.quantity)
+					$('.selling_price').text(ReplaceNumberWithCommas(e.selling_price))
+					$('.basic_price').text(ReplaceNumberWithCommas(e.basic_price))
+					$('.profit').text(ReplaceNumberWithCommas(e.profit))
+					$('.notes').text(e.notes)
+				});
+        	}
+        }
+
+        $('#btn_search_tr_by_date').on('click', function(e){
+        	let start_date =  $('#tr_date_from').val()
+	        let end_date = $('#tr_date_to').val()
+
+	        if (start_date == ''){
+	        	start_date = '-'
+	        }
+
+	        if (end_date == ''){
+	        	end_date = '-'
+	        }
+
+	        table = $('#table-transaction').DataTable();
+			table.destroy();
+	        get_list_transaction(start_date, end_date)
+	        e.preventDefault()
+        })
+
+        $('#btn_search_by_date').on('click', function(e){
+        	let start_date =  $('#date_from').val()
+	        let end_date = $('#date_to').val()
+
+	        if (start_date == ''){
+	        	start_date = '-'
+	        }
+
+	        if (end_date == ''){
+	        	end_date = '-'
+	        }
+
+	        table = $('#table-detail-tr').DataTable();
+			table.destroy();
+	        get_list_detail_transaction(start_date, end_date)
+	        e.preventDefault()
+        })
+
+        try {
+	        // Your code goes here
+	        // This code might throw an error
+	        // If an error occurs, it will be caught by the catch block
+	        get_list_marketplace()
+	        get_list_transaction('-','-')
+	        get_list_detail_transaction('-','-')
+	    } catch (error) {
+	        console.log('An error occurred: ' + error.message);
+	        // Handle the error here
+	    }
+    })
+</script>

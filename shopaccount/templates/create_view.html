@@ -1,0 +1,108 @@
+{% extends 'header.html' %}
+
+{% block title %} Create {% endblock %}
+
+{% block content %}
+    <form method="POST" enctype="multipart/form-data">
+        <!-- Security token -->
+        {% csrf_token %}
+     
+        <!-- Using the formset -->
+        <!-- {{ form.as_p }} -->
+        {% if dataset == '1' %}
+            <!-- {{ formset.form.as_p }} -->
+        <table>
+            <tr>   
+                <td>
+                    <label for="id_mp_name">Marketplace name:</label>
+                    <input type="text" name="mp_name" maxlength="200" required="" id="id_mp_name">
+                </td>
+            </tr>
+        </table>
+        {% else %}
+        <table>
+            <tr>
+                <td>
+                    <label for="id_date">Date created:</label>
+                </td>
+                <td>
+                    <input type="date" name="date" class="datepicker" required="" id="id_date">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="id_mp_id">Select marketplace:</label>
+                </td>
+                <td>
+                    <select name="mp_id" required="" id="id_mp_id">
+                        <option value="" selected>-select-</option>
+                        {% for data in data_mp %}
+                            <option value="{{ data.id }}">{{ data.mp_name }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="id_order_id">Order id:</label>
+                </td>
+                <td>
+                    <input type="text" name="order_id" maxlength="200" required="" id="id_order_id">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="id_product_name">Product name:</label>
+                </td>
+                <td>
+                    <input type="text" name="product_name" maxlength="200" required="" id="id_product_name">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="id_product_category">Product category:</label>
+                </td>
+                <td>
+                    <input type="text" name="product_category" maxlength="200" required="" id="id_product_category">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="id_quantity">Quantity:</label>
+                </td>
+                <td>
+                    <input type="number" name="quantity" required="" id="id_quantity">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="id_selling_price">Selling price:</label>
+                </td>
+                <td>    
+                    <input type="number" name="selling_price" step="0.01" required="" id="id_selling_price">                    
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="id_basic_price">Basic price:</label>
+                </td>
+                <td>
+                    <input type="number" name="basic_price" step="0.01" required="" id="id_basic_price">
+                </td>
+            </tr>
+            <tr>
+                <td> 
+                    <label for="id_notes">Notes:</label>
+                </td>
+                <td>
+                    <textarea name="notes" cols="40" rows="10" maxlength="500" required="" id="id_notes" style="width: 298px; height: 146px;"></textarea>
+                </td>
+            </tr>
+        </table>
+        {% endif %}
+        <div>
+            <input type="submit" value="Update">
+            <input type="reset">
+        </div>
+    </form>
+{% endblock %}
