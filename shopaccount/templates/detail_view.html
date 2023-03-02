@@ -1,6 +1,6 @@
 {% extends 'header.html' %}
 
-{% block title %} Detail {% endblock %}
+{% block title %} Detail : {{ context.data.mp_name }}{% endblock %}
 
 {% block content %}
     <input type="hidden" id="data_id" value="{{ data_id }}">

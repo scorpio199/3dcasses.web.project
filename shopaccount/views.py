@@ -40,7 +40,9 @@ def list_view(request):
     return render(request, "list_view.html", {'url':url})
 
 def detail_view(request, id, data):
-    return render(request, "detail_view.html", {'data_id':id, 'data_no': data})
+    context = {}
+    context["data"] = Marketplace.objects.get(id = id)
+    return render(request, "detail_view.html", {'data_id':id, 'data_no': data, 'context': context})
 
 def list_marketplace(request):
     queryset = Marketplace.objects.all()
