@@ -47,3 +47,6 @@ class Transaction(models.Model):
     def profit(self):
         return round(self.selling_price - (self.basic_price * self.quantity),2)
     
+    def margin(self):
+        profit = self.selling_price - (self.basic_price * self.quantity)
+        return round((profit / self.selling_price) * 100,2)

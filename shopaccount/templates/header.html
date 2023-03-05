@@ -186,7 +186,7 @@
 	                        index++
 	                        data.push([index, e.date,  
 	                                e.order_id, e.product_name, e.product_category, e.quantity,
-	                                ReplaceNumberWithCommas(e.selling_price), ReplaceNumberWithCommas(e.basic_price), ReplaceNumberWithCommas(e.profit)]);
+	                                ReplaceNumberWithCommas(e.selling_price), ReplaceNumberWithCommas(e.basic_price), ReplaceNumberWithCommas(e.profit), e.margin]);
 	                    });
 
 	                    return data;
@@ -201,7 +201,12 @@
 	                    { title: 'Quantity' },
 	                    { title: 'Nett Selling price' },
 	                    { title: 'Basic price' },
-	                    { title: 'Profit' }
+	                    { title: 'Profit' },
+	                    { title: 'Margin',
+	                    	render: function(data, type, row, meta) {
+	                            return data+' %';
+	                        } 
+	                    }
 	                ],
 	                pagingType: 'full_numbers',
 	                pageLength: 25,

@@ -11,4 +11,4 @@ class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
         fields = ('id', 'date', 'mp_id', 'order_id', 'product_name', 'product_category', 
-                    'quantity', 'selling_price', 'basic_price', 'notes', 'profit')
+                    'quantity', 'selling_price', 'basic_price', 'notes', 'profit', 'margin')
