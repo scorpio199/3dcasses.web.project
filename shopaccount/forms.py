@@ -1,5 +1,5 @@
 from django import forms
-from .models import Marketplace, Transaction
+from .models import Marketplace, Transaction, PayoutType, Payout
 from django.conf import settings
  
 # creating a form
@@ -35,24 +35,26 @@ class TransactionForm(forms.ModelForm):
             "notes"
         ]
 
-        #labels = {
-        #    'title': _('Judul'),
-        #    'description': _('Deskripsi'),
-        #    'status': _('Status')
-        #}
+class PayoutTypeForm(forms.ModelForm):
+ 
+    # create meta class
+    class Meta:
+        # specify model to be used
+        model = PayoutType
+ 
+        # specify fields to be used
+        fields = [
+            "pay_type_name", "pay_type_perc"
+        ]
 
-        #error_messages = {
-        #    'title': {
-        #        'required': _("Judul harus diisi."),
-        #    },
-        #    'description': {
-        #        'required': _("Deskripsi harus diisi."),
-        #    },
-        #}
-
-        widgets = {
-            #'prename': TextInput(attrs={"class": "form-control form-group", "required:": "", "placeholder": "Vorname*", "style": "max-width: 800px; margin-left: auto; margin-right: auto;"}),
-            #'surname': TextInput(attrs={"class": "form-control dragArea col-md col-sm-12 form-group mb-3", "required:": "", "placeholder": "Nachname*", "style": "max-width: 800px; margin-left: auto; margin-right: auto;"}),
-            #'punkte': TextInput(attrs={"class": "form-control dragArea col-md col-sm-12 form-group mb-3", "required:": "", "placeholder": "Aktien Anzahl*", "style": "max-width: 800px; margin-left: auto; margin-right: auto;"}),
-            'date': forms.DateInput(format=settings.DATE_INPUT_FORMATS, attrs={'class': 'datepicker', 'type': 'date'})
-        }
+class PayoutForm(forms.ModelForm):
+ 
+    # create meta class
+    class Meta:
+        # specify model to be used
+        model = Payout
+ 
+        # specify fields to be used
+        fields = [
+            "pay_date", "pay_name", "pay_type_id", "pay_value"
+        ]

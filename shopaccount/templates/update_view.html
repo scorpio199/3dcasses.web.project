@@ -4,7 +4,7 @@
 
 {% block content %}
     <!-- Create a Form -->
-    <form method="POST">
+    <form method="POST" class="frm_input">
         <!-- Security token by Django -->
         {% csrf_token %}
 
@@ -14,11 +14,13 @@
             <tr>   
                 <td>
                     <label for="id_mp_name">Marketplace name:</label>
+                </td>
+                <td>
                     <input type="text" name="mp_name" maxlength="200" required="" id="id_mp_name" value="{{ data_mp_id.mp_name }}">
                 </td>
             </tr>
         </table>
-        {% else %}
+        {% elif dataset == '2' %}
         <table>
             <tr>
                 <td>
@@ -98,10 +100,69 @@
                 </td>
             </tr>
         </table>
+        {% elif dataset == '3' %}
+        <table>
+            <tr>   
+                <td>
+                    <label for="id_pay_type_name">Category:</label>
+                </td>
+                <td>
+                    <input type="text" name="pay_type_name" maxlength="200" required="" id="id_pay_type_name" value="{{ data_pt_id.pay_type_name}}">
+                </td>
+            </tr>
+            <tr>   
+                <td>
+                    <label for="id_pay_type_name">Percentage:</label>
+                </td>
+                <td>
+                    <input type="text" name="pay_type_perc" maxlength="200" required="" id="id_pay_type_perc" value="{{ data_pt_id.pay_type_perc }}">
+                </td>
+            </tr>
+        </table>
+        {% else %}
+        <table>
+            <tr>
+                <td>
+                    <label for="id_date">Date created:</label>
+                </td>
+                <td>
+                    <input type="date" name="pay_date" class="datepicker" required="" id="id_pay_date" value="{{ data_p.pay_date|date:'Y-m-d' }}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="id_order_id">Payout Name:</label>
+                </td>
+                <td>
+                    <input type="text" name="pay_name" maxlength="200" required="" id="id_pay_name" value="{{ data_p.pay_name }}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="id_pay_type_id">Select Pay Type:</label>
+                </td>
+                <td>
+                    <select name="pay_type_id" required="" id="id_pay_type_id">
+                        <option value="" selected>-select-</option>
+                        {% for data in data_pt %}
+                            <option value="{{ data.id }}" {% if data.id == data_p.pay_type_id.id %} selected {% endif %}>{{ data.pay_type_name }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="id_pay_value">Payout Value:</label>
+                </td>
+                <td>
+                    <input type="number" name="pay_value" step="0.01" required="" id="id_pay_value" value="{{ data_p.pay_value}}">
+                </td>
+            </tr>
+        </table>
         {% endif %}
-        <div class="text-left">
-            <input type="submit" value="Update">
-            <input type="reset">
+        <div class="text-center">
+            <input type="submit" value="Update" class="btn_submit">
+            <input type="reset" class="btn_reset">
         </div>
     </form>
 {% endblock %}

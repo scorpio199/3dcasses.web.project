@@ -38,7 +38,7 @@ class Transaction(models.Model):
     def __selling_price(self):
         return self.selling_price
 
-    def __basic_price():
+    def __basic_price(self):
         return self.basic_price
 
     def __notes(self):
@@ -50,3 +50,31 @@ class Transaction(models.Model):
     def margin(self):
         profit = self.selling_price - (self.basic_price * self.quantity)
         return round((profit / self.selling_price) * 100,2)
+
+class PayoutType(models.Model):
+    pay_type_name = models.CharField(max_length=200)
+    pay_type_perc = models.FloatField()
+
+    def __pay_type_name(self):
+        return self.pay_type_name
+
+    def __pay_type_perc(self):
+        return self.pay_type_perc
+
+class Payout(models.Model):
+    pay_date = models.DateField('date created')
+    pay_name = models.CharField(max_length=200)
+    pay_type_id = models.ForeignKey(PayoutType, to_field='id', on_delete=models.CASCADE)
+    pay_value = models.DecimalField(max_digits=12, decimal_places=2)
+
+    def __pay_date(self):
+        return self.pay_date
+
+    def __pay_name(self):
+        return self.pay_name
+
+    def __pay_type_id(self):
+        return self.pay_type_id
+
+    def __pay_value(self):
+        return self.pay_value
