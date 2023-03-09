@@ -60,6 +60,10 @@
 				font-weight: 700;
 			}
 
+			.table{
+				margin: 10px auto;
+			}
+
 			.title{
 				padding: 12px 10px;
 				margin: 10px 0;
@@ -75,9 +79,14 @@
 				font-weight: 700;
 			}
 
-			.table{
-				margin: 10px auto;
+			.toggle-filter{
+				padding: 10px 0;
+			    border: 1px solid #000;
+			    border-left: 0;
+			    border-right: 0;
+			    margin-bottom: 10px;
 			}
+
 		</style>
 		<title>{% block title %} Main {% endblock %}</title>
 	</head>
@@ -451,6 +460,21 @@
     }
 
     $(document).ready(function(){
+    	$('.accordion-content').hide();
+		$('.widget-accordion').find('.accordion-toggle').click(function() {
+			$('.accordion-toggle').each(function(){
+		  	$(this).removeClass("opened");
+		  });
+		  // State change visuals
+		  $(this).toggleClass('opened');
+
+		  //Expand or collapse this panel
+		  $(this).next().slideToggle('fast');
+
+		  //Hide the other panels
+		  $(".accordion-content").not($(this).next()).slideUp('fast');
+		});
+
         try {
 	        // Your code goes here
 	        // This code might throw an error

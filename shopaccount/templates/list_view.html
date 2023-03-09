@@ -3,24 +3,26 @@
 {% block title %} Dashboard {% endblock %}
 
 {% block content %}
-    <div class="text-center">
+<div class="widget-accordion">
+    <div class="accordion-toggle text-center">
         <div class="title">
             <b>Marketplace</b>
             <a href="{{ url }}/create_view/1">[Add Data]</a>
         </div>
     </div>
-    <div class="col-md-3">            
+    <div class="accordion-content default col-md-3">            
         <table id="table-marketplace" class="table datatable">
             <!-- set in jquery -->
         </table>
     </div>
-    <div class="text-center">
+    <div class="accordion-toggle text-center">
         <div class="title">
             <b>Transaction</b>
             <a href="{{ url }}/create_view/2">[Add Data]</a>
         </div>
-        <hr>
-        <div class="text-center">
+    </div>
+    <div class="accordion-content">
+        <div class="toggle-filter text-center">
             <form method="GET" onsubmit="event.preventDefault(); filter_by_date('tr')">                
                 <label>Search from</label>
                 <input type="date" name="" id="tr_date_from">
@@ -30,33 +32,31 @@
                 <input type="reset" name="">
             </form>
         </div>
-        <hr>
-    </div>
-    <div>
         <table id="table-transaction" class="table datatable">
             <!-- set in jquery -->
         </table>
     </div>
-    <div class="text-center">
+    <div class="accordion-toggle text-center">
         <div class="title">
             <b>Payout Types</b>
             <a href="{{ url }}/create_view/3">[Add Data]</a>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="accordion-content col-md-3">
         <table id="table-payout-type" class="table datatable">
             <!-- set in jquery -->
         </table>
     </div>
-    <div class="text-center">
+    <div class="accordion-toggle text-center">
         <div class="title">
             <b>Payout</b>
             <a href="{{ url }}/create_view/4">[Add Data]</a>
         </div>
     </div>
-    <div>
+    <div class="accordion-content">
         <table id="table-payout" class="table datatable">
             <!-- set in jquery -->
         </table>
     </div>
+</div>
 {% endblock %}
