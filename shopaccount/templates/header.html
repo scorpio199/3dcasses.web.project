@@ -351,7 +351,7 @@
             ajax: {
               url: url_api+'list_payout/',
               dataSrc: function(json) {
-                var data = [];
+              	var data = [];
 
                 // Iterate over each object in the JSON response and create a new array of arrays
                 $.each(json.dataset, function(index, e) {
@@ -409,6 +409,7 @@
                 $('.pay_type_id').text(e.id)
                 $('.pay_type_name').text(e.pay_type_name)
                 $('.pay_type_perc').text(e.pay_type_perc)
+                $('.total_payout').html('<b>'+ReplaceNumberWithCommas(json.total_payout)+'</b>')
 
                 // Iterate over each object in the JSON response and create a new array of arrays
                 $.each(json.payout, function(index, e) {

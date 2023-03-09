@@ -78,6 +78,7 @@ def list_detail(request, id, data, start_date, end_date):
     # field names as keys
     context = {}; data_list = {}
     _basic_price = 0; _total_profit = 0; _total_qty = 0; _total_selling_price = 0; _total_basic_price = 0
+    _total_payout = 0
     mp = ""; tr = ""; pt = ""; p = ""
 
     
@@ -109,6 +110,9 @@ def list_detail(request, id, data, start_date, end_date):
         data_list['dataset'] = Payout.objects.filter(pay_type_id = context.id).order_by('-pay_date')
         if (start_date!='-' and end_date!='-'):
             data_list['dataset'] = Payout.objects.filter(pay_type_id = context.id, pay_date__range=[start_date, end_date]).order_by('-pay_date')
+
+        for _data_list in data_list['dataset']:
+            _total_payout += _data_list.pay_value   
         
         pt = PayoutTypeSerializer(context, many=False).data
         p = PayoutSerializer(data_list['dataset'], many=True).data 
@@ -118,6 +122,7 @@ def list_detail(request, id, data, start_date, end_date):
                     'transaction': tr, 
                     'payout_type': pt,
                     'payout': p,
+                    'total_payout': _total_payout,
                     'total_profit':_total_profit, 
                     'total_qty':_total_qty,
                     'total_selling_price':_total_selling_price,
