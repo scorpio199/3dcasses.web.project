@@ -276,7 +276,14 @@
                 pageLength: 25,
                 dom: 'Bfrtip',
 		        buttons: [
-		            'copy', 'csv', 'excel', 'pdf', 'print'
+		            'copy',
+		            {
+		                extend: 'csv',
+		                exportOptions: {
+		                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+		                }
+		            },
+		            'excel', 'pdf', 'print'
 		        ]
             });
     	}else if (data_no == 2){
