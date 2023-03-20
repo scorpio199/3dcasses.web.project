@@ -10,3 +10,71 @@
 .pull-left{
     float: left;
 }
+.col-md-3{
+    width: 33.3333%;
+    margin: auto;
+}
+.col-md-6{
+    width: 66.6666%;
+    margin: auto;
+}
+
+.btn_reset{
+    background-color: grey;
+    border: none;
+    padding: 10px;
+    color: #FFFF;
+    border-radius: 10px;
+    width: 80px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.btn_submit{
+    background-color: rgba(0,212,255,1);
+    border: none;
+    padding: 10px;
+    color: #FFFF;
+    border-radius: 10px;
+    width: 80px;
+    font-weight: 800;
+    margin: 0 10px 0 0;
+    cursor: pointer;
+}
+
+.frm_input table{
+    margin: 21px auto;
+}
+
+.link{
+    color: #00d4ff;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.table{
+    margin: 10px auto;
+}
+
+.title{
+    padding: 12px 10px;
+    margin: 10px 0;
+    background: linear-gradient(97deg, rgba(2,0,36,1) 0%, rgba(0,0,0,0.9416141456582633) 44%, rgba(0,212,255,1) 100%);
+}
+
+.title b{
+    color: #FFFF;
+}
+
+.title a{
+    color: #00d4ff;
+    font-weight: 700;
+}
+
+.toggle-filter{
+    padding: 10px 0;
+    border: 1px solid #000;
+    border-left: 0;
+    border-right: 0;
+    margin-bottom: 10px;
+}
