@@ -29,6 +29,7 @@ class TransactionForm(forms.ModelForm):
             "order_id",
             "product_name",
             "product_category",
+            "product_article",
             "quantity",
             "selling_price",
             "basic_price",

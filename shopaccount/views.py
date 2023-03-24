@@ -3,11 +3,11 @@ from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from django.views.generic import ListView
 from django.core.paginator import Paginator
-from django.db.models import Q
+from django.db.models import Q, Count
 from filter_and_pagination import FilterPagination
 from .models import Marketplace, Transaction, PayoutType, Payout
 from .forms import MarketplaceForm, TransactionForm, PayoutTypeForm, PayoutForm
-from .serializers import TransactionSerializer, MarketplaceSerializer, PayoutTypeSerializer, PayoutSerializer
+from .serializers import TransactionSerializer, MarketplaceSerializer, PayoutTypeSerializer, PayoutSerializer, ProductSerializer
 
 def create_view(request, data):
     # dictionary for initial data with
@@ -72,6 +72,16 @@ def list_transaction(request, start_date, end_date):
 
     return JsonResponse(resultset, safe=False)
 
+def list_products(request):
+    # dictionary for initial data with
+    # field names as keys
+    # add the dictionary during initialization
+    queryset = Transaction.objects.all().values('product_article').distinct().annotate(total_sales_by_product=Count('product_article')).order_by('-total_sales_by_product')
+
+    context = ProductSerializer(queryset, many=True).data      
+    resultset = {'dataset': context}
+
+    return JsonResponse(resultset, safe=False)
 
 def list_detail(request, id, data, start_date, end_date):
     # dictionary for initial data with

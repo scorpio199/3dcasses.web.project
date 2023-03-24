@@ -48,6 +48,37 @@ function get_list_marketplace(){
     });
 }
 
+function get_list_products(){
+    $('#table-products').DataTable({
+        columnDefs: [{
+            data: null
+        }],
+        ajax: {
+          url: url_api+'list_products/',
+          dataSrc: function(json) {
+            var data = [];
+
+            // Iterate over each object in the JSON response and create a new array of arrays
+            $.each(json.dataset, function(index, e) {
+                index++
+                data.push([index, e.product_article, e.total_sales_by_product]);
+            });
+
+            return data;
+          }
+        },
+        columns: [
+            { title: 'No' },
+            { title: 'Product Article' },
+            { title: 'Qty of Sales' },
+        ],
+        pagingType: 'full_numbers',
+        pageLength: 25,
+        order: [[0, 'asc']]
+    });
+}
+
+
 function get_list_transaction(date_from, date_to){
 	if (date_from == ''){
 		date_from = '-'
@@ -71,7 +102,7 @@ function get_list_transaction(date_from, date_to){
             $.each(json.dataset, function(index, e) {
                 index++
                 data.push([index, e.id, e.date, e.mp_id.mp_name, 
-                        e.order_id, e.product_name, e.product_category, e.quantity,
+                        e.order_id, e.product_name, e.product_category, e.product_article, e.quantity,
                         ReplaceNumberWithCommas(e.selling_price), ReplaceNumberWithCommas(e.basic_price)]);
             });
 
@@ -90,6 +121,7 @@ function get_list_transaction(date_from, date_to){
             },
             { title: 'Product name' },
             { title: 'Category' },
+            { title: 'Article' },
             { title: 'Quantity' },
             { title: 'Selling price' },
             { title: 'Basic price' },
@@ -104,7 +136,6 @@ function get_list_transaction(date_from, date_to){
         order: [[0, 'desc']]
     });
 }
-
 
 function get_list_detail_transaction(date_from, date_to){
 	let data_id = $('#data_id').val()
@@ -142,7 +173,7 @@ function get_list_detail_transaction(date_from, date_to){
                 $.each(json.transaction, function(index, e) {
                     index++
                     data.push([index, e.date,  
-                            e.order_id, e.product_name, e.product_category, e.quantity,
+                            e.order_id, e.product_name, e.product_category, e.product_article, e.quantity,
                             ReplaceNumberWithCommas(e.selling_price), ReplaceNumberWithCommas(e.basic_price), ReplaceNumberWithCommas(e.profit), e.margin]);
                 });
 
@@ -155,6 +186,7 @@ function get_list_detail_transaction(date_from, date_to){
                 { title: 'Order ID' },
                 { title: 'Product name' },
                 { title: 'Category' },
+                { title: 'Article' },
                 { title: 'Quantity' },
                 { title: 'Nett Selling price' },
                 { title: 'Basic price' },
@@ -173,7 +205,7 @@ function get_list_detail_transaction(date_from, date_to){
 	            {
 	                extend: 'csv',
 	                exportOptions: {
-	                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+	                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
 	                }
 	            },
 	            'excel', 'pdf', 'print'
@@ -187,6 +219,7 @@ function get_list_detail_transaction(date_from, date_to){
 			$('.order_id').text(e.order_id)
 			$('.product_name').text(e.product_name)
 			$('.product_category').text(e.product_category)
+            $('.product_article').text(e.product_article)
 			$('.quantity').text(e.quantity)
 			$('.selling_price').text(ReplaceNumberWithCommas(e.selling_price))
 			$('.basic_price').text(ReplaceNumberWithCommas(e.basic_price))
@@ -381,6 +414,7 @@ $(document).ready(function(){
         // This code might throw an error
         // If an error occurs, it will be caught by the catch block
         get_list_marketplace()
+        get_list_products()
         get_list_transaction('-','-')
         get_list_detail_transaction('-','-')
         get_list_payout_type()

@@ -12,6 +12,7 @@ urlpatterns = [
 
     # API data
     path('list_marketplace/', views.list_marketplace, name='list_marketplace'),
+    path('list_products/', views.list_products, name='list_products'),
     path('list_transaction/<start_date>/<end_date>', views.list_transaction, name='list_transaction'),
     path('list_detail/<id>/<data>/<start_date>/<end_date>', views.list_detail, name='list_detail'),
     path('list_payout_type/', views.list_payout_type, name='list_payout_type'),

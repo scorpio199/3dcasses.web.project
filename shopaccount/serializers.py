@@ -10,7 +10,7 @@ class TransactionSerializer(serializers.ModelSerializer):
     mp_id = MarketplaceSerializer()
     class Meta:
         model = Transaction
-        fields = ('id', 'date', 'mp_id', 'order_id', 'product_name', 'product_category', 
+        fields = ('id', 'date', 'mp_id', 'order_id', 'product_name', 'product_category', 'product_article', 
                     'quantity', 'selling_price', 'basic_price', 'notes', 'profit', 'margin')
 
 class PayoutTypeSerializer(serializers.ModelSerializer):
@@ -23,3 +23,9 @@ class PayoutSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payout
         fields = ('id', 'pay_date', 'pay_name', 'pay_type_id', 'pay_value')
+
+class ProductSerializer(serializers.ModelSerializer):
+    total_sales_by_product = serializers.IntegerField()
+    class Meta:
+        model = Transaction
+        fields = ('id', 'product_article', 'total_sales_by_product')

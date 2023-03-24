@@ -12,6 +12,7 @@ class Transaction(models.Model):
     order_id = models.CharField(max_length=200)
     product_name = models.CharField(max_length=200)
     product_category = models.CharField(max_length=200)
+    product_article = models.CharField(max_length=200)
     quantity = models.IntegerField(default=0)
     selling_price = models.DecimalField(max_digits=12, decimal_places=2)
     basic_price = models.DecimalField(max_digits=12, decimal_places=2)
@@ -31,6 +32,9 @@ class Transaction(models.Model):
 
     def __product_category(self):
         return self.product_category
+
+    def __product_article(self):
+        return self.product_article
 
     def __quantity(self):
         return self.quantity
