@@ -199,7 +199,9 @@ function get_list_detail_transaction(date_from, date_to){
             ],
             pagingType: 'full_numbers',
             pageLength: 25,
-            dom: 'Bfrtip',
+            lengthMenu: [[25, 50, 100, -1], [25, 50, 100, "All"]],
+            dom: 'Blfrtip',
+            lengthChange: true,
 	        buttons: [
 	            'copy',
 	            {
